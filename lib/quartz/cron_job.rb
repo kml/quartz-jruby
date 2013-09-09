@@ -15,8 +15,7 @@ module Quartz
 
     add_method_signature('execute', [java.lang.Void::TYPE, JobExecutionContext])
     def execute(context)
-      job_block = JobBlocksContainer.instance.jobs[context.job_detail.name]
-      job_block.call(self)
+      initialize_and_execute(context)
     end
 
     add_method_signature('interrupt', [java.lang.Void::TYPE])
@@ -25,6 +24,13 @@ module Quartz
       # Using Java's thread.interrupt() doesn't make sense currently, b/c JRuby
       # ignores InterruptedException (http://jira.codehaus.org/browse/JRUBY-4135)
       self.interrupted = true
+    end
+
+    private
+
+    def initialize_and_execute(context)
+      job_block = JobBlocksContainer.instance.jobs[context.job_detail.name]
+      job_block.call(self)
     end
   end
 

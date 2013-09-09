@@ -25,20 +25,28 @@ module Quartz
 
     module InstanceMethods
       def schedule(name, options, block)
-        job_code_blocks.jobs[name.to_s] = block
+        register_job(name, options, block)
 
-        job_class = (options[:disallow_concurrent] ? Quartz::CronJobSingle : Quartz::CronJob)
-        job = JobBuilder.new_job(job_class.java_class).with_identity("#{name}", self.class.to_s).build
+        job_runner_class = (options[:disallow_concurrent] ? Quartz::CronJobSingle : Quartz::CronJob)
+        job = JobBuilder.new_job(job_runner_class.java_class).tap do |builder|
+          builder.with_identity(name.to_s, self.class.to_s)
+          builder.with_description(options[:description]) if options[:description]
+        end.build
 
-        if options[:cron]
-          trigger_schedule = CronScheduleBuilder.cron_schedule(options[:cron])
+        trigger_schedule = if options[:cron]
+          CronScheduleBuilder.cron_schedule(options[:cron])
         else
-          trigger_schedule = SimpleScheduleBuilder.simple_schedule.
-                          with_interval_in_seconds(options[:every].to_i).repeat_forever
+          SimpleScheduleBuilder.
+            simple_schedule.
+            with_interval_in_seconds(options[:every].to_i).
+            repeat_forever
         end
 
-        trigger = TriggerBuilder.new_trigger.with_identity("#{name}_trigger", self.class.to_s).
-                          with_schedule(trigger_schedule).build
+        trigger = TriggerBuilder.
+          new_trigger.
+          with_identity("#{name}_trigger", self.class.to_s).
+          with_schedule(trigger_schedule).
+          build
 
         scheduler.schedule_job(job, trigger)
       end
@@ -49,6 +57,10 @@ module Quartz
 
       def scheduler
         @scheduler ||= scheduler_factory.get_scheduler
+      end
+
+      def register_job(name, options, block)
+        job_code_blocks.jobs[name.to_s] = block
       end
 
       def job_code_blocks
@@ -68,7 +80,8 @@ module Quartz
 
       def stop
         interrupt
-        scheduler.shutdown(true)
+        wait_for_jobs_to_complete = true
+        scheduler.shutdown(wait_for_jobs_to_complete)
       end
     end
   end
