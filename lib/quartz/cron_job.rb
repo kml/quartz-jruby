@@ -1,7 +1,7 @@
 require 'jruby/core_ext'
-java_import 'org.quartz.InterruptableJob'
-java_import 'org.quartz.JobExecutionContext'
-java_import 'org.quartz.DisallowConcurrentExecution'
+java_import org.quartz.InterruptableJob
+java_import org.quartz.JobExecutionContext
+java_import org.quartz.DisallowConcurrentExecution
 
 module Quartz
   class CronJob

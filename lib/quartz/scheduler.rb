@@ -1,9 +1,11 @@
-java_import 'org.quartz.JobKey'
-java_import 'org.quartz.JobBuilder'
-java_import 'org.quartz.TriggerBuilder'
-java_import 'org.quartz.impl.StdSchedulerFactory'
-java_import 'org.quartz.SimpleScheduleBuilder'
-java_import 'org.quartz.CronScheduleBuilder'
+require 'singleton'
+
+java_import org.quartz.JobKey
+java_import org.quartz.JobBuilder
+java_import org.quartz.TriggerBuilder
+java_import org.quartz.impl.StdSchedulerFactory
+java_import org.quartz.SimpleScheduleBuilder
+java_import org.quartz.CronScheduleBuilder
 
 module Quartz
   module Scheduler

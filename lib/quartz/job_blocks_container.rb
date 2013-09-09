@@ -1,3 +1,5 @@
+require 'singleton'
+
 module Quartz
   class JobBlocksContainer
     include Singleton
