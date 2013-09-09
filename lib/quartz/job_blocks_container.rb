@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'singleton'
 
 module Quartz
@@ -10,3 +12,4 @@ module Quartz
     end
   end
 end
+

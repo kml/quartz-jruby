@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'jruby/core_ext'
 java_import org.quartz.InterruptableJob
 java_import org.quartz.JobExecutionContext
@@ -45,3 +47,4 @@ module Quartz
   CronJob.become_java!
   CronJobSingle.become_java!
 end
+

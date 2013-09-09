@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'singleton'
 
 java_import org.quartz.JobKey
@@ -86,3 +88,4 @@ module Quartz
     end
   end
 end
+

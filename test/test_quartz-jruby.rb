@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require File.dirname(__FILE__) + '/test_helper.rb'
 
 # Uncomment for debug mode
@@ -47,3 +49,4 @@ class TestScheduler < Test::Unit::TestCase
     assert_equal 3, Scheduler.with_interrupt
   end
 end
+

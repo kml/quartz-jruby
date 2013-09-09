@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# encoding: utf-8
 
 $:.push File.expand_path("../lib", __FILE__)
 require 'quartz/version'
@@ -25,3 +25,4 @@ This gem makes these available in a ruby friendly syntax}
   s.summary = %q{From {Quartz Scheduler's website}[http://www.quartz-scheduler.org/]  Quartz is a full-featured, open source job scheduling service that can be integrated with, or used along side virtually any Java EE or Java SE application - from the smallest stand-alone application to the largest e-commerce system}
   s.test_files = ["test/test_helper.rb", "test/test_quartz-jruby.rb"]
 end
+
