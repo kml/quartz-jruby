@@ -33,7 +33,7 @@ class TestScheduler < Test::Unit::TestCase
     end
 
     # Just an example how to define other cron job tasks
-    # schedule(:days_3, :cron => "0 37 1 ? * SAT#3") { puts 'third saturday in the month' }
+    # schedule(:days_3, cron: "0 37 1 ? * SAT#3") { puts 'third saturday in the month' }
   end
 
   def test_should_run_scheduler_and_jobs

@@ -1,0 +1,14 @@
+PATH
+  remote: .
+  specs:
+    quartz-jruby (0.2.2)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+
+PLATFORMS
+  java
+
+DEPENDENCIES
+  quartz-jruby!

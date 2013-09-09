@@ -14,21 +14,38 @@ Here is a quick [blog post](http://www.artha42.com/blog/scheduling_jobs_with_qua
 * Support for Jobs with DisallowConcurrentExecution annotation set (pass :disallow_concurrent => true to schedule method)
 * Support for interrupting jobs (example in the test file)
 
+## Requirements
+
+Requires JRuby >= 1.7.
+
 ## Usage
 
 Install with
 
         $ gem install quartz-jruby
 
+Running console:
+
+        $ bundle console
+
 Example code
 
         require 'quartz'
+
         class TestScheduler
           include Quartz::Scheduler
-          schedule(:say_hello_5, :every => 5) { puts "every 5 seconds" }
-          schedule(:say_hello_5_dc, :cron => "0/5 * * * * ? ", :disallow_concurrent => true) { puts "every 5 seconds"; sleep(8) }
+          schedule(:say_hello_5, every: 5) { puts "every 5 seconds" }
+          schedule(:say_hello_5_dc, cron: "0/5 * * * * ? ", disallow_concurrent: true) do
+            puts "every 5 seconds"
+            sleep 8
+          end
         end
+
         TestScheduler.instance.run
+
+Running tests:
+
+        $ ruby test/test_quartz-jruby.rb
 
 ## License
 
