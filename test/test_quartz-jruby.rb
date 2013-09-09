@@ -12,18 +12,18 @@ class TestScheduler < Test::Unit::TestCase
     include Quartz::Scheduler
 
     # run every one second, but should be invoked each 4 seconds only (sleep statement and disallow_concurrent option)
-    schedule(:dis_concurrent, :cron => "0/1 * * * * ?", :disallow_concurrent => true) do
+    schedule(:dis_concurrent, cron: "0/1 * * * * ?", disallow_concurrent: true) do
       Scheduler.dis_concurrent = Scheduler.dis_concurrent.to_i + 1
       sleep 4
     end
     # run every one second, even if the task takes longer. fired immediately after scheduler.run
     # fired four times - once at the scheduler.run and then three times during sleep(3) in thest method
-    schedule(:no_dis_concurrent, :every => 1) do
+    schedule(:no_dis_concurrent, every: 1) do
       Scheduler.no_dis_concurrent = Scheduler.no_dis_concurrent.to_i + 1
       sleep 2
     end
     # it should run 10 times if not interrupted
-    schedule(:with_interrupt, :every => 180) do |job|
+    schedule(:with_interrupt, every: 180) do |job|
       (1..10).each do |i|
         # job.interrupted? returns false only three times
         break if job.interrupted?
