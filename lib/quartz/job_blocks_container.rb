@@ -5,6 +5,6 @@ module Quartz
     attr_accessor :jobs
     def initialize
       @jobs ||= {}
-    end  
+    end
   end
 end
