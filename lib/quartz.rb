@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'java'
 
 require 'slf4j-log4j12-1.6.1'
