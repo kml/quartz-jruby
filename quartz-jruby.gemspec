@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version = Quartz::VERSION
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Vagmi Mudumbai", 'Michal Ochman']
+  s.authors = ["Vagmi Mudumbai", 'Michal Ochman', 'Kamil Lemanski']
   s.description = %q{From {Quartz Scheduler's website}[http://www.quartz-scheduler.org/]
 
 Quartz is a full-featured, open source job scheduling service that can be integrated with, or used along side virtually any Java EE or Java SE application - from the smallest stand-alone application to the largest e-commerce system. Quartz can be used to create simple or complex schedules for executing tens, hundreds, or even tens-of-thousands of jobs; jobs whose tasks are defined as standard Java components that may executed virtually anything you may program them to do. The Quartz Scheduler includes many enterprise-class features, such as JTA transactions and clustering.
