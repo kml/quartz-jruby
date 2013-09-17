@@ -8,6 +8,7 @@ java_import org.quartz.TriggerBuilder
 java_import org.quartz.impl.StdSchedulerFactory
 java_import org.quartz.SimpleScheduleBuilder
 java_import org.quartz.CronScheduleBuilder
+java_import org.quartz.TriggerKey
 
 module Quartz
   module Scheduler
@@ -29,9 +30,10 @@ module Quartz
       def schedule(name, options, block)
         register_job(name, options, block)
 
-        job_runner_class = (options[:disallow_concurrent] ? Quartz::CronJobSingle : Quartz::CronJob)
-        job = JobBuilder.new_job(job_runner_class.java_class).tap do |builder|
-          builder.with_identity(name.to_s, self.class.to_s)
+        job_runner_class = options[:disallow_concurrent] ? Quartz::CronJobSingle : Quartz::CronJob
+
+        job_detail = JobBuilder.new_job(job_runner_class.java_class).tap do |builder|
+          builder.with_identity(name.to_s, group)
           builder.with_description(options[:description]) if options[:description]
         end.build
 
@@ -46,11 +48,40 @@ module Quartz
 
         trigger = TriggerBuilder.
           new_trigger.
-          with_identity("#{name}_trigger", self.class.to_s).
+          for_job(job_detail).
+          with_identity("#{name}_trigger", group).
           with_schedule(trigger_schedule).
           build
 
-        scheduler.schedule_job(job, trigger)
+        scheduler.schedule_job(job_detail, trigger)
+     end
+
+      def unschedule(name)
+        scheduler.unschedule_job(trigger_key(name))
+      end
+
+      def delete(name)
+        scheduler.delete_job(job_key(name))
+      end
+
+      def pause(name)
+        scheduler.pause_job(job_key(name))
+      end
+
+      def resume(name)
+        scheduler.resume_job(job_key(name))
+      end
+
+      def trigger_key(name)
+        TriggerKey.triggerKey("#{name}_trigger", group)
+      end
+
+      def job_key(name)
+        JobKey.jobKey(name, group)
+      end
+
+      def group
+        self.class.to_s
       end
 
       def scheduler_factory
